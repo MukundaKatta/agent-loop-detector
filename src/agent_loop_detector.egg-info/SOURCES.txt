@@ -1,0 +1,11 @@
+LICENSE
+README.md
+pyproject.toml
+src/agent_loop_detector/__init__.py
+src/agent_loop_detector/core.py
+src/agent_loop_detector/py.typed
+src/agent_loop_detector.egg-info/PKG-INFO
+src/agent_loop_detector.egg-info/SOURCES.txt
+src/agent_loop_detector.egg-info/dependency_links.txt
+src/agent_loop_detector.egg-info/top_level.txt
+tests/test_agent_loop_detector.py
