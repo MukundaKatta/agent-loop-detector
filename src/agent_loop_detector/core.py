@@ -8,7 +8,7 @@ from __future__ import annotations
 import collections
 import hashlib
 import json
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 
@@ -32,7 +32,7 @@ class CallRecord:
     input_hash: str
     input_repr: str
 
-    def matches(self, other: "CallRecord") -> bool:
+    def matches(self, other: CallRecord) -> bool:
         return self.tool_name == other.tool_name and self.input_hash == other.input_hash
 
 
@@ -121,7 +121,17 @@ class LoopDetector:
     ) -> bool:
         """Check for a loop, then record the call.
 
-        Raises LoopDetected (or returns True) before recording if loop found.
+        Behaviour depends on ``raise_on_loop``:
+
+        * If ``raise_on_loop`` is True (default) and a loop is detected, this
+          raises :class:`LoopDetected` *before* the call is recorded, so the
+          offending call never enters the window.
+        * If ``raise_on_loop`` is False, the call is always recorded and the
+          return value indicates whether the call constituted a loop.
+
+        Returns:
+            ``False`` when no loop was detected, ``True`` when a loop was
+            detected and ``raise_on_loop`` is False.
         """
         result = self.check(tool_name, input_data)
         self.record(tool_name, input_data)
